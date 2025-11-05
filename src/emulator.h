@@ -1,4 +1,5 @@
 
+#pragma once
 #include <vector>
 using namespace std;
 
@@ -22,7 +23,7 @@ struct Emulator
 
     bool Z, S, P, CY, AC;
 
-    uint8_t memory[65536];
+    uint8_t memory[65536]; // 65536 bytes enligt dokumentationen
 
     void initialize();
     void loadProgram(const char* filename);
