@@ -7,7 +7,7 @@ using namespace std;
 
 void Emulator::initialize() { 
 
-        A=B=C=D=E=H=L = 0;
+        A=B=C=D=E=H=L = 0; // TODO: ÄNDRA TILL LISTA?
         SP=PC = 0;
         flags.Z  = 0;
         flags.S  = 0;
@@ -130,7 +130,8 @@ void Emulator::emulateCycle() {
         case 0xCD: // CALL a16
             CALL();
             return;
-    
+            
+        
     
 
         
