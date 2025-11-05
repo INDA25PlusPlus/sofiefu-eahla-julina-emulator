@@ -9,7 +9,12 @@ void Emulator::initialize() {
 
         A=B=C=D=E=H=L = 0;
         SP=PC = 0;
-        Z=S=P=CY=AC = false;
+        flags.Z  = 0;
+        flags.S  = 0;
+        flags.P  = 0;
+        flags.CY = 0;
+        flags.AC = 0;
+        halted = false;
         memset(memory, 0, sizeof(memory));
     }
 
@@ -29,20 +34,23 @@ void Emulator::emulateCycle() {
     // i8080 Instruction Set: https://pastraiser.com/cpu/i8080/i8080_opcodes.html
 
     uint8_t opcode = memory[PC];
+    // increment counter
+    PC++;
 
     // handle unique instructions
     switch (opcode)
     {
         case 0x00: // NOP
-            // NOP()
+            // no operation is performed
             return;
 
-        case 0x76:
-            // HLT();
+        case 0x76: // HLT
+            // stops the processor from fetching and executing further instructions
+            halted = true;
             return;
 
-        case 0xC0:
-            // RNZ()
+        case 0xC0: // RNZ
+            // return on no zero
             return;
 
         case 0xC1:
