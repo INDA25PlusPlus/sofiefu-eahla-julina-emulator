@@ -22,10 +22,9 @@ struct Emulator
 
     bool Z, S, P, CY, AC;
 
-    // minne, intel 8080 har 64kB minne
     vector<uint8_t> memory;
 
-    Emulator() : memory(65000) {
+    Emulator() : memory(65536) { // 65536 bytes enligt dokumentationen
 
         A=B=C=D=E=H=L = 0;
         SP=PC = 0;
