@@ -1,12 +1,18 @@
-#include <bits/stdc++.h>
+
+#include "emulator.h"
+#include "iostream"
 using namespace std;
 
+
 int main(){
+    Emulator cpu;
+    cpu.initialize();
+    cpu.loadProgram("exempel.bin");
 
-    while(1){
-        uint8_t operation_code = read_next_instruction(); // single byte 
-        Instruction = decode_instruction(operation_code); // can use struct
-        execute_instruction(instruction)
+
+    while(true){
+        cpu.emulateCycle();
     }
-}
 
+    return 0;
+}
