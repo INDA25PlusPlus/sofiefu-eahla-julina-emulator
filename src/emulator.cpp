@@ -8,7 +8,8 @@ using namespace std;
 void Emulator::initialize() { 
 
         A=B=C=D=E=H=L = 0; // TODO: ÄNDRA TILL LISTA?
-        SP=PC = 0;
+        PC = 0;
+        SP = 0xFFFF; // stack grows downward
         flags.Z  = 0;
         flags.S  = 0;
         flags.P  = 0;
