@@ -34,7 +34,8 @@ void Emulator::emulateCycle() {
     // i8080 Instruction Set: https://pastraiser.com/cpu/i8080/i8080_opcodes.html
 
     uint8_t opcode = memory[PC];
-    // increment counter
+    // increment counter - now it points to the first operand of multi-byte instructions
+    // or on the next instruction
     PC++;
 
     // handle unique instructions
@@ -60,7 +61,7 @@ void Emulator::emulateCycle() {
             }
             return;
             
-        case 0xC1: // POP B
+        case 0xC1: // POP B //!!! CHANGE IF WE CHANGE REGISTERS TO LIST
             // pop two bytes from the stack into BC pair
             C = memory[SP]; // low byte
             B = memory[SP+1]; // high byte
@@ -131,9 +132,44 @@ void Emulator::emulateCycle() {
             CALL();
             return;
             
-        
-    
+        case 0xCE: // ACI d6
+            // TODO
+            return;
 
+        case 0xCF: // RST 1
+            // TODO 
+            return;
+
+        case 0xD0: // RNC -- return on no carry
+            if (!flags.CY) {
+                PC = pop16();
+            }
+            return;
+        
+        case 0xD1: // POP D
+            // TODO
+            // pop two bytes from the stack into DE pair
+            return;
+        
+        case 0xD2: // JNC -- jump on no carry
+            if (!flags.CY) {
+                JMP();
+            } else {
+                PC += 2;
+            }
+            return;
+
+        case 0xD3: // OUT d8
+            // TODO
+            return;
+
+        case 0xD4: // CNC a16 -- call if no carry
+            if (!flags.CY) {
+                CALL();
+            } else {
+
+            }
+            
         
         // TODO: Write all cases and implement them
         
@@ -165,10 +201,10 @@ uint16_t Emulator::pop16() {
 }
 
 void Emulator::CALL() {
-    uint8_t addr = (memory[PC + 2] << 8) | memory[PC + 1];
+    uint8_t addr = (memory[PC + 1] << 8) | memory[PC];
             
     // push return address (PC + 3) onto stack
-    uint8_t ret = PC + 3;
+    uint8_t ret = PC + 2;
     SP -= 2;
     memory[SP] = ret & 0xFF; // low byte
     memory[SP - 2] = (ret >> 8) & 0xFF; // high byte
@@ -179,6 +215,6 @@ void Emulator::CALL() {
 
 
 void Emulator::JMP() {
-    uint16_t addr = memory[PC + 1] | (memory[PC+2] << 8);
+    uint16_t addr = memory[PC] | (memory[PC+1] << 8);
     PC = addr;
 }
