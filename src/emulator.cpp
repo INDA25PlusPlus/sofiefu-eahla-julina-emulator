@@ -53,8 +53,7 @@ void Emulator::emulateCycle() {
         
         // BRANCH GROUP
 
-        case 0xC0: // RNZ
-            // return on no zero
+        case 0xC0: // RNZ -- return on no zero
             if (flags.Z == 0) { // if NOT zero
                 // pop 16-bit return address from memory and return and assign PC to this.
                 PC = pop16();
@@ -167,8 +166,43 @@ void Emulator::emulateCycle() {
             if (!flags.CY) {
                 CALL();
             } else {
-
+                PC += 2;
             }
+            return;
+
+        case 0xD5: // PUSH D
+            // TODO
+            return;
+
+        case 0xD6: // SUI d8
+            // TODO
+            return;
+
+        case 0xD7: // RST 2
+            // TODO
+            return;
+
+        case 0xD8: // RC -- return if carry
+            if (flags.CY) {
+                PC = pop16();
+            }
+            return;
+
+        // case 0xD9
+
+        case 0xDA: //JC -- jump if carrry
+            if (flags.CY) {
+                JMP();
+            } else {
+                PC += 2;
+            }
+            return;
+
+        case 0xDB: // IN d8
+            // TODO
+            return;
+
+        
             
         
         // TODO: Write all cases and implement them
@@ -203,7 +237,7 @@ uint16_t Emulator::pop16() {
 void Emulator::CALL() {
     uint8_t addr = (memory[PC + 1] << 8) | memory[PC];
             
-    // push return address (PC + 3) onto stack
+    // push return address (PC + 2) onto stack
     uint8_t ret = PC + 2;
     SP -= 2;
     memory[SP] = ret & 0xFF; // low byte
