@@ -49,48 +49,90 @@ void Emulator::emulateCycle() {
             halted = true;
             return;
 
+        
+        // BRANCH GROUP
+
         case 0xC0: // RNZ
             // return on no zero
+            if (flags.Z == 0) { // if NOT zero
+                // pop 16-bit return address from memory and return and assign PC to this.
+                PC = pop16();
+            }
+            return;
+            
+        case 0xC1: // POP B
+            // pop two bytes from the stack into BC pair
+            C = memory[SP]; // low byte
+            B = memory[SP+1]; // high byte
+            SP += 2;
             return;
 
-        case 0xC1:
-            // POP(opcode)
+        case 0xC2: // JNZ a16 -- jump on not zero
+            // first low order address in memory[PC+1]
+            // then high order address in memory[PC+2]
+            if (flags.Z == 0) {
+                JMP();
+            } else {
+                PC += 2; // skip this instruction
+            }
             return;
 
-        case 0xC2:
-            // JNZ(opcode)
-            return;
-
-        case 0xC3: 
-            // JMP(opcode)
+        case 0xC3: // JMP a16 -- unconditional
+            JMP();
             return;
         
-        case 0xC4:
-            // CNZ(opcode)
+        case 0xC4: // CNZ -- call if not zero
+            if (flags.Z == 0) {
+                CALL();
+            } else {
+                PC += 2; 
+            }
             return;
         
-        case 0xC5:
-            // PUSH(opcode);
+        case 0xC5: // PUSH -- unconditional
+            // TODO
             return;
         
-        case 0xC6:
-            // ADI(opcode):
+        case 0xC6: // ADI
+            // TODO
             return;
 
-        case 0xC7:
-            // RST(opcode);
+        case 0xC7: // RST -- reset/restart
+            // TODO
             return;
 
-        case 0xC8:
-            // RZ();
+        case 0xC8: // RZ -- return if zero
+            if (flags.Z) {
+                PC = pop16();
+            }
             return;
 
-        case 0xC9:
-            // RET(
+        case 0xC9: // RET -- return unconditional
+            PC = pop16();
             return;
 
-        case 0xCA:
-            // JZ(opcode)
+        case 0xCA: // JZ a16 -- jump if zero
+            if (flags.Z) {
+                JMP();
+            } else {
+                PC += 2; // instruction ignored
+            }
+            return;
+
+        case 0xCC: // CZ a16 -- call if zero
+            if (flags.Z) {
+                CALL();
+            } else {
+                PC += 2;
+            }
+            return;
+        
+        case 0xCD: // CALL a16
+            CALL();
+            return;
+    
+    
+
         
         // TODO: Write all cases and implement them
         
@@ -111,4 +153,31 @@ void Emulator::emulateCycle() {
             break;
     }
     
+}
+
+
+uint16_t Emulator::pop16() {
+    uint8_t low = memory[SP];
+    uint8_t high = memory[SP+1];
+    SP += 2;
+    return (high << 8) | low;
+}
+
+void Emulator::CALL() {
+    uint8_t addr = (memory[PC + 2] << 8) | memory[PC + 1];
+            
+    // push return address (PC + 3) onto stack
+    uint8_t ret = PC + 3;
+    SP -= 2;
+    memory[SP] = ret & 0xFF; // low byte
+    memory[SP - 2] = (ret >> 8) & 0xFF; // high byte
+
+    SP -= 2;
+    PC = addr;
+}
+
+
+void Emulator::JMP() {
+    uint16_t addr = memory[PC + 1] | (memory[PC+2] << 8);
+    PC = addr;
 }

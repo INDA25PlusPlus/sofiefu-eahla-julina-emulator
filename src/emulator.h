@@ -40,6 +40,13 @@ struct Emulator
     void initialize();
     void loadProgram(const char* filename);
     void emulateCycle();
+    uint16_t pop16();
+
+    // instructions
+    // Finns tex bara en unconditional JMP, men flera conditional mha flaggor, så najs att ha
+    // som en metod
+    void JMP();
+    void CALL();
 
 };
 
