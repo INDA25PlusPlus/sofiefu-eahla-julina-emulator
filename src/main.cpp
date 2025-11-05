@@ -7,7 +7,7 @@ using namespace std;
 int main(){
     Emulator cpu;
     cpu.initialize();
-    cpu.loadProgram("exempel.bin");
+    cpu.loadProgram("examples/no-output-fib.bin");
 
 
     while(true){
