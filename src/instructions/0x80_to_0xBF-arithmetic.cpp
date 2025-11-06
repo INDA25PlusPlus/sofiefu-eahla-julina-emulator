@@ -54,10 +54,59 @@ void Emulator::handleArithmetic(uint8_t opcode)
             A = res;
             return;
         }
-        
+
         // case 0x8f: // Fixed right above here!
 
         // --- 0x9X ---
+
+        // SUB
+
+        case 0x90: case 0x91: case 0x92: case 0x93: case 0x94: case 0x95: case 0x97: {
+            // sub from register last 3 to A
+            uint8_t reg = opcode & 0b111;
+            uint8_t res = A - registers[reg];
+
+            set_flags_before_sub(A, registers[reg], res);
+
+            A = res;
+            return;
+        }
+
+        case 0x96: {
+            // lower 3 110 , (A)...- (A) - ((H) (L))
+            uint16_t memory_location = (H << 8) + L;
+            uint8_t res = A - memory[memory_location];
+
+            set_flags_before_sub(A, memory[memory_location], res);
+
+            A = res;
+            return;
+        }
+
+        // SBB
+
+        case 0x98: case 0x99: case 0x9a: case 0x9b: case 0x9c: case 0x9d: case 0x9f: {
+            // (Sub Register with carry
+            // (A) ~ (A) - (r) - (CY)
+            uint8_t reg = opcode & 0b111;
+            uint8_t res = A - registers[reg] - flags.CY;
+
+            set_flags_before_sub(A, registers[reg], res); // works with and without carry
+
+            A = res;
+            return;
+        }
+
+        case 0x9e: {
+            //
+            uint16_t memory_location = (H << 8) + L;
+            uint8_t res = A - memory[memory_location] - flags.CY;
+
+            set_flags_before_sub(A, memory[memory_location], res);
+
+            A = res;
+            return;
+        }
 
         // --- 0xAX ---
 
