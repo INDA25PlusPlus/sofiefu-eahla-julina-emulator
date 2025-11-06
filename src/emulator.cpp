@@ -90,10 +90,16 @@ void Emulator::emulateCycle() {
             }
             return;
         
-        case 0xC5: // PUSH -- unconditional
-            // TODO
+        case 0xC5: // PUSH B -- unconditional
+            push(registers[0], registers[1]);
             return;
-        
+        case 0xD5: // PUSH D
+            push(registers[2], registers[3]);
+            break;
+        case 0xE5: // PUSH H
+            push(registers[4], registers[5]);
+            break;
+
         case 0xC6: // ADI
             // TODO
             return;

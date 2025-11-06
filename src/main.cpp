@@ -11,7 +11,6 @@ int main(){
 
 
     while(true){
-
         if (!cpu.halted) {
             cpu.emulateCycle();
         } else {

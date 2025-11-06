@@ -27,3 +27,10 @@ int Emulator::get_binary_value(uint8_t byte, int r, int l){
     }
     return (byte>>start) & mask;
 }
+
+void Emulator::push(uint8_t high, uint8_t low){
+    SP--;
+    memory[SP] = high;
+    SP--;
+    memory[SP] = low;
+}
