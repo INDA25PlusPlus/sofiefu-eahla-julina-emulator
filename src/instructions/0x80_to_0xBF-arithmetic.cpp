@@ -1,4 +1,5 @@
 #include "emulator.h"
+#include <iostream>
 using namespace std;
 
 void Emulator::handleArithmetic(uint8_t opcode) 
@@ -167,5 +168,63 @@ void Emulator::handleArithmetic(uint8_t opcode)
         }
 
         // --- 0xBX ---
+
+        // ORA
+
+        case 0xB0: case 0xB1: case 0xB2: case 0xB3: case 0xB4: case 0xB5: case 0xB7: {
+            // OR Register
+            uint8_t reg = opcode & 0b111;
+            uint8_t res = A | registers[reg];
+
+            set_flags(res);
+            flags.CY = 0;
+            flags.AC = 0;
+
+            A = res;
+            return;
+        }
+
+        case 0xB6: {
+            // OR memory
+            uint16_t memory_location = (H << 8) + L;
+            uint8_t res = A | memory[memory_location];
+
+            set_flags(res);
+            flags.CY = 0;
+            flags.AC = 0;
+
+            A = res;
+            return;
+        }
+
+        // CMP
+
+        case 0xB8: case 0xB9: case 0xBa: case 0xBb: case 0xBc: case 0xBd: case 0xBf: {
+            // CMP Register
+            uint8_t reg = opcode & 0b111;
+            uint8_t res = A - registers[reg];
+
+            set_flags(res);
+            A < registers[reg] ? flags.CY = 1 : flags.CY = 0;
+            flags.AC = ((A & 0xF) < ((registers[reg] & 0xF))); // check if borrow to lowest nibble
+
+            return;
+        }
+
+        case 0xBe: {
+            // CMP memory
+            uint16_t memory_location = (H << 8) + L;
+            uint8_t res = A - memory[memory_location];
+
+            set_flags(res);
+            A < memory[memory_location] ? flags.CY = 1 : flags.CY = 0;
+            flags.AC = ((A & 0xF) < ((memory[memory_location] & 0xF))); // check if borrow to lowest nibble
+
+            return;
+        }
+
+        default: {
+            cout << "Error Misdirected Instruction in 0x40 to 0x7F, instruction: " << opcode << "\n";
+        }
     }
 }
