@@ -64,7 +64,8 @@ struct Emulator
 
     void MOV(uint8_t opcode);
     int get_binary_value(uint8_t byte, int r, int l);
-    void push(uint8_t high, uint8_t low);
+    void PUSH(uint8_t high, uint8_t low);
+    void RST(uint8_t n);
 };
 
 #define B registers[REG_B]
