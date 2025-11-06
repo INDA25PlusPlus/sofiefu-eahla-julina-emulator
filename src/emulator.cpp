@@ -50,6 +50,23 @@ void Emulator::emulateCycle() {
             // stops the processor from fetching and executing further instructions
             halted = true;
             return;
+        
+
+        // 8x - 88 // ARITHMETIC INSTRUCTIONS
+        case 0x80: case 0x81: case 0x82: case 0x83: case 0x84: case 0x85:
+            // add from register last 3 to A
+            uint8_t reg = opcode & 0b111;
+            A = A + reges; // nej
+        
+        case 0x86:
+        
+        case 0x87:
+
+        // 8x - 90 // ADD r (lower 3) to A
+        // lower 3 110 , (A)...- (A) + ((H) (L))
+
+
+        // 
 
         
         // BRANCH GROUP
