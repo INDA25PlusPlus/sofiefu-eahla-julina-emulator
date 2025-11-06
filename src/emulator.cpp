@@ -214,7 +214,7 @@ void Emulator::emulateCycle() {
     switch (opcode & 0xC0) // compare first two bits
     {
         case 0x40:
-            // handle_MOV(opcode);
+            MOV(opcode);
             break;
         
         case 0x80: // 
