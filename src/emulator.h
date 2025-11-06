@@ -7,7 +7,9 @@ using namespace std;
 struct Emulator
 {   
     // register
-    vector<uint8_t> registers{8};
+    // in order B, C, D, E, H, L, (M), A
+    map<char, int> registerIndex = {{'A', 7}, {'B', 0}, {'C', 1}, {'D', 2}, {'E', 3}, {'H', 4}, {'L', 5}}; 
+    vector<uint8_t> registers{8, 0};
 
     // stack pointer och program counter
     uint16_t SP;
