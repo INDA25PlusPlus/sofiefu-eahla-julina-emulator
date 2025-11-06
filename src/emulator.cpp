@@ -2,14 +2,13 @@
 #include <vector>
 using namespace std;
 
-struct Emulator
-{   
+struct Emulator{   
     // register
     uint8_t A, B, C, D, E, H, L;
 
     // stack pointer och program counter
     uint16_t SP;
-    uint16_t PC;
+    uint16_t PC;    
 
     // flags
     // | Flag | Name            |
