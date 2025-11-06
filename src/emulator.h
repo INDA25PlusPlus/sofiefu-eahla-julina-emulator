@@ -1,12 +1,13 @@
 
 #pragma once
 #include <vector>
+#include <map>
 using namespace std;
 
 struct Emulator
 {   
     // register
-    uint8_t A, B, C, D, E, H, L;
+    vector<uint8_t> registers{8};
 
     // stack pointer och program counter
     uint16_t SP;
@@ -47,6 +48,9 @@ struct Emulator
     // som en metod
     void JMP();
     void CALL();
+
+    void MOV(uint8_t opcode);
+    int get_binary_value(uint8_t byte, int r, int l);
 
 };
 
