@@ -2,6 +2,7 @@
 #pragma once
 #include <vector>
 #include <map>
+#include <cstdint>
 using namespace std;
 
 struct Emulator
@@ -52,6 +53,13 @@ struct Emulator
     void initialize();
     void loadProgram(const char* filename);
     void emulateCycle();
+
+    // split instruction checks
+    void handleMisc(uint8_t opcode);
+    void handleLoadStoreMove(uint8_t opcode);
+    void handleAritmethic(uint8_t opcode);
+    void handleBranchOrStack(uint8_t opcode);
+
     uint16_t pop16();
     uint8_t encode_flag_byte();
     void decode_flag_byte(uint8_t flag_byte);
