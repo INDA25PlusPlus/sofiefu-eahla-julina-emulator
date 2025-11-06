@@ -92,13 +92,13 @@ void Emulator::emulateCycle() {
             return;
         
         case 0xC5: // PUSH B -- unconditional
-            push(registers[0], registers[1]);
+            PUSH(registers[0], registers[1]);
             return;
         case 0xD5: // PUSH D
-            push(registers[2], registers[3]);
+            PUSH(registers[2], registers[3]);
             return;
         case 0xE5: // PUSH H
-            push(registers[4], registers[5]);
+            PUSH(registers[4], registers[5]);
             return;
 
         case 0xC6: // ADI
@@ -106,13 +106,6 @@ void Emulator::emulateCycle() {
             return;
 
         case 0xC7: RST(0);  return; // RST n -- reset/restart
-        case 0xCF: RST(1); return;
-        case 0xD7: RST(2); return;
-        case 0xDF: RST(3); return;
-        case 0xE7: RST(4); return;
-        case 0xEF: RST(5); return;
-        case 0xF7: RST(6); return;
-        case 0xFF: RST(7); return;
 
         case 0xC8: // RZ -- return if zero
             if (flags.Z) {
@@ -148,9 +141,7 @@ void Emulator::emulateCycle() {
             // TODO
             return;
 
-        case 0xCF: // RST 1
-            // TODO 
-            return;
+        case 0xCF: RST(1); return;
 
         case 0xD0: // RNC -- return on no carry
             if (!flags.CY) {
@@ -191,9 +182,7 @@ void Emulator::emulateCycle() {
             // TODO
             return;
 
-        case 0xD7: // RST 2
-            // TODO
-            return;
+        case 0xD7: RST(2); return;
 
         case 0xD8: // RC -- return if carry
             if (flags.CY) {
@@ -229,9 +218,7 @@ void Emulator::emulateCycle() {
             // TODO
             break;
 
-        case 0xDF: // RST 3
-            // TODO
-            break;
+        case 0xDF: RST(3); return;
 
         case 0xE0: // RPO -- return if parity odd
             if (!flags.P) {
@@ -270,9 +257,7 @@ void Emulator::emulateCycle() {
             // TODO
             return;
 
-        case 0xE7: // RST 4
-            // TODO 
-            return;
+        case 0xE7: RST(4); return;
 
         case 0xE8: // RPe -- return if parity even
             if (flags.P) {
@@ -310,9 +295,7 @@ void Emulator::emulateCycle() {
             // TODO
             return;
 
-        case 0xEF:  // RST 5
-            // TODO
-            return;
+        case 0xEF: RST(5); return;
 
         case 0xF0: // RP -- return if positive
             if (!flags.S) {
@@ -352,9 +335,7 @@ void Emulator::emulateCycle() {
             // TODO
             return;
 
-        case 0xF7: // RST 6
-            // TODO
-            return;
+        case 0xF7: RST(6); return;
 
         case 0xF8: // RM -- return if minus
             if (flags.S) {
@@ -392,9 +373,7 @@ void Emulator::emulateCycle() {
             // TODO
             return;
 
-        case 0xFF: // RST 7
-            // TODO
-            return;
+        case 0xFF: RST(7); return;
 
         
             
