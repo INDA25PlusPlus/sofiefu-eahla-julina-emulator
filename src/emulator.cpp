@@ -96,18 +96,23 @@ void Emulator::emulateCycle() {
             return;
         case 0xD5: // PUSH D
             push(registers[2], registers[3]);
-            break;
+            return;
         case 0xE5: // PUSH H
             push(registers[4], registers[5]);
-            break;
+            return;
 
         case 0xC6: // ADI
             // TODO
             return;
 
-        case 0xC7: // RST -- reset/restart
-            // TODO
-            return;
+        case 0xC7: RST(0);  return; // RST n -- reset/restart
+        case 0xCF: RST(1); return;
+        case 0xD7: RST(2); return;
+        case 0xDF: RST(3); return;
+        case 0xE7: RST(4); return;
+        case 0xEF: RST(5); return;
+        case 0xF7: RST(6); return;
+        case 0xFF: RST(7); return;
 
         case 0xC8: // RZ -- return if zero
             if (flags.Z) {

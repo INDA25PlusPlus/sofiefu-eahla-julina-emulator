@@ -28,9 +28,17 @@ int Emulator::get_binary_value(uint8_t byte, int r, int l){
     return (byte>>start) & mask;
 }
 
-void Emulator::push(uint8_t high, uint8_t low){
+void Emulator::PUSH(uint8_t high, uint8_t low){
     SP--;
     memory[SP] = high;
     SP--;
     memory[SP] = low;
+}
+
+void Emulator::RST(uint8_t n){
+    uint16_t return_address = PC;
+    SP -= 2; // push things to stack, message address is two bytes
+    memory[SP] = return_address & 0xFF; // stores return_address in stack (in memory)
+    memory[SP + 1] = (return_address >> 8); 
+    PC = 8 * n;
 }
