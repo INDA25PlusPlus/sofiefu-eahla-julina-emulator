@@ -57,12 +57,16 @@ struct Emulator
     // split instruction checks
     void handleMisc(uint8_t opcode);
     void handleLoadStoreMove(uint8_t opcode);
-    void handleAritmethic(uint8_t opcode);
+    void handleArithmetic(uint8_t opcode);
     void handleBranchOrStack(uint8_t opcode);
 
     uint16_t pop16();
     uint8_t encode_flag_byte();
     void decode_flag_byte(uint8_t flag_byte);
+
+    void set_flags(uint8_t result);
+    void set_flags_before_add(uint8_t a, uint8_t b, uint8_t result);
+    void set_flags_before_sub(uint8_t a, uint8_t b, uint8_t result);
 
     // instructions
     // Finns tex bara en unconditional JMP, men flera conditional mha flaggor, så najs att ha

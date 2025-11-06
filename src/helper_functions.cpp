@@ -54,6 +54,35 @@ void Emulator::decode_flag_byte(uint8_t flag_byte) {
 
 }
 
+void Emulator::set_flags(uint8_t result) {
+    // result == 0 ?
+    flags.Z = (result == 0);
+    // MSB of result set?
+    flags.S = (result & 128);
+    // even number of set bits?
+    uint8_t set_bits = 0;
+    for (int i = 0; i < 8; i++) if ((result >> i) & 1) set_bits++;  
+    flags.P = (set_bits % 2 == 0);
+}
+
+void Emulator::set_flags_before_add(uint8_t a, uint8_t b, uint8_t result) {
+    uint16_t res = a + b + flags.CY;
+    
+    flags.AC = (((a & 0xF) + (b & 0xF) + flags.CY) > 0xF); // check if overflow from lowest nibble
+    flags.CY = (res > 0xFF); // check if carry over / overflow
+
+    set_flags(result);
+}
+
+void Emulator::set_flags_before_sub(uint8_t a, uint8_t b, uint8_t result) {
+    uint16_t res = (uint16_t)a - (uint16_t)b - (uint16_t)flags.CY;
+    
+    flags.AC = ((a & 0xF) < ((b & 0xF) + flags.CY)); // check if borrow to lowest nibble
+    flags.CY = ((uint16_t)a < ((uint16_t)b + (uint16_t)flags.CY)); // checks if res < 0
+
+    set_flags(result);
+}
+
 void Emulator::MOV(uint8_t opcode){
     int start = get_binary_value(opcode, 2, 0), dest=get_binary_value(opcode, 5, 3);
 
