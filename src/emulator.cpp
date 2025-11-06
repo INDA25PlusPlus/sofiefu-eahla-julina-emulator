@@ -312,8 +312,6 @@ void Emulator::emulateCycle() {
             return;
 
         case 0xF1: // POP PSW
-            // TODO
-
             int8_t flag_byte = memory[SP];
             A = memory[SP+1];
 
