@@ -8,7 +8,7 @@ struct Emulator
 {   
     // register
     // in order B, C, D, E, H, L, (M), A
-    enum RegisterIndex { // Ska vi initialisera dessa med 0, 1, .., 7 ??
+    enum RegisterIndex { // Dessa initialiseras med 0, 1, .., 7 "automatiskt"
       REG_B = 0,
       REG_C,
       REG_D,

@@ -124,7 +124,7 @@ void Emulator::emulateCycle() {
             return;
         
         case 0xC5: // PUSH -- unconditional
-            // TODO
+            push(registers[0], registers[1]);
             return;
 
         case 0xC6: // ADI
