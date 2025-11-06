@@ -203,6 +203,187 @@ void Emulator::emulateCycle() {
             // TODO
             return;
 
+        case 0xDC: // CC a16 -- call if carry
+            if (flags.CY) {
+                CALL();
+            } else {
+                PC += 2;
+            }
+            return;
+
+        // case 0xDD
+
+        case 0xDE: // SBI d8
+            // TODO
+            break;
+
+        case 0xDF: // RST 3
+            // TODO
+            break;
+
+        case 0xE0: // RPO -- return if parity odd
+            if (!flags.P) {
+                PC = pop16();
+            }
+            return;
+
+        case 0xE1: // POP H
+            // TODO
+            return;
+
+        case 0xE2: // JPO -- jump if parity odd
+            if (!flags.P) {
+                JMP();
+            } else {
+                PC += 2;
+            }
+            return;
+
+        case 0xE3: // XTHL
+            // TODO
+            return;
+
+        case 0xE4: // CPO - call if parity odd
+            if (!flags.P) {
+                CALL();
+            } else {
+                PC += 2;
+            }
+        
+        case 0xE5: // PUSH H
+            // TODO
+            return;
+
+        case 0xE6: // ANI d8
+            // TODO
+            return;
+
+        case 0xE7: // RST 4
+            // TODO 
+            return;
+
+        case 0xE8: // RPe -- return if parity even
+            if (flags.P) {
+                PC = pop16();
+            }
+            return;
+
+
+        case 0xE9: // PCHL
+            // TODO
+            return;
+
+        
+        case 0xEA: // JPE -- jump if parity even
+            if (flags.P) {
+                JMP();
+            } else {
+                PC += 2;
+            }
+            return;
+
+        case 0xEB: //XCHG
+            // TODO
+            return;
+
+        case 0xEC: // CPE -- call if parity even
+            if (flags.P) {
+                CALL();
+            }
+            return;
+
+        // case 0xED
+
+        case 0xEE: // XRI
+            // TODO
+            return;
+
+        case 0xEF:  // RST 5
+            // TODO
+            return;
+
+        case 0xF0: // RP -- return if positive
+            if (!flags.S) {
+                PC = pop16();
+            }
+            return;
+
+        case 0xF1: // POP PSW
+            // TODO
+            return;
+
+        case 0xF2: // JP -- jump if positive
+            if (!flags.S) {
+                JMP();
+            } else {
+                PC += 2;
+            }
+            return;
+
+        case 0xF3: // DI
+            // TODO
+            return;
+
+        case 0xF4: // CP -- call if positive
+            if (!flags.S) {
+                CALL();
+            } else {
+                PC += 2;
+            }
+            return;
+
+        case 0xF5: // PUSH PSW
+            // TODO
+            return;
+
+        case 0xF6: // ORI d8
+            // TODO
+            return;
+
+        case 0xF7: // RST 6
+            // TODO
+            return;
+
+        case 0xF8: // RM -- return if minus
+            if (flags.S) {
+                PC = pop16();
+            }
+            return;
+
+        case 0xF9: // SPHL
+            // TODO
+            return;
+
+        case 0xFA: // JM -- jump if minus
+            if (flags.S) {
+                JMP();
+            } else {
+                PC += 2;
+            }
+            return;
+
+        case 0xFB: // EI
+            // TODO
+            return;
+
+        case 0xFC: // CM -- call if minus
+            if (flags.S) {
+                CALL();
+            } else {
+                PC += 2;
+            }
+            return;
+
+        // case 0xFD
+
+        case 0xFE: // CPI d8
+            // TODO
+            return;
+
+        case 0xFF: // RST 7
+            // TODO
+            return;
+
         
             
         
@@ -253,3 +434,4 @@ void Emulator::JMP() {
     uint16_t addr = memory[PC] | (memory[PC+1] << 8);
     PC = addr;
 }
+
