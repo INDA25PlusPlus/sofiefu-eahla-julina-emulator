@@ -110,6 +110,62 @@ void Emulator::handleArithmetic(uint8_t opcode)
 
         // --- 0xAX ---
 
+        // ANA (and)
+
+        case 0xA0: case 0xA1: case 0xA2: case 0xA3: case 0xA4: case 0xA5: case 0xA7: {
+            // AND Register
+            uint8_t reg = opcode & 0b111;
+            uint8_t res = A & registers[reg];
+
+            set_flags(res);
+            flags.CY = 0;
+            flags.AC = 1;
+
+            A = res;
+            return;
+        }
+
+        case 0xA6: {
+            // AND memory
+            uint16_t memory_location = (H << 8) + L;
+            uint8_t res = A & memory[memory_location];
+
+            set_flags(res);
+            flags.CY = 0;
+            flags.AC = 1;
+
+            A = res;
+            return;
+        }
+
+        // XRA
+
+        case 0xA8: case 0xA9: case 0xAa: case 0xAb: case 0xAc: case 0xAd: case 0xAf: {
+            // XOR Register
+            uint8_t reg = opcode & 0b111;
+            uint8_t res = A ^ registers[reg];
+
+            set_flags(res);
+            flags.CY = 0;
+            flags.AC = 0;
+
+            A = res;
+            return;
+        }
+
+        case 0xAe: {
+            // XOR memory
+            uint16_t memory_location = (H << 8) + L;
+            uint8_t res = A ^ memory[memory_location];
+
+            set_flags(res);
+            flags.CY = 0;
+            flags.AC = 0;
+
+            A = res;
+            return;
+        }
+
         // --- 0xBX ---
     }
 }
