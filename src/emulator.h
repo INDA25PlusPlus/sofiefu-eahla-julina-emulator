@@ -1,12 +1,24 @@
 
 #pragma once
 #include <vector>
+#include <map>
 using namespace std;
 
 struct Emulator
 {   
     // register
-    uint8_t A, B, C, D, E, H, L;
+    // in order B, C, D, E, H, L, (M), A
+    enum RegisterIndex {
+      REG_B = 0,
+      REG_C,
+      REG_D,
+      REG_E,
+      REG_H,
+      REG_L,
+      REG_M, // minne vid H + L
+      REG_A,
+    };
+    uint8_t registers[8];
 
     // stack pointer och program counter
     uint16_t SP;
@@ -48,8 +60,16 @@ struct Emulator
     void JMP();
     void CALL();
 
+    void MOV(uint8_t opcode);
+    int get_binary_value(uint8_t byte, int r, int l);
+    void push(uint8_t high, uint8_t low);
 };
 
-
-
-
+#define B registers[REG_B]
+#define C registers[REG_C]
+#define D registers[REG_D]
+#define E registers[REG_E]
+#define H registers[REG_H]
+#define L registers[REG_L]
+// #define M registers[REG_M]
+#define A registers[REG_A]
