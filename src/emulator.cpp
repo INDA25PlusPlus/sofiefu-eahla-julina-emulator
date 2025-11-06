@@ -64,8 +64,8 @@ void Emulator::emulateCycle() {
             
         case 0xC1: // POP B //!!! CHANGE IF WE CHANGE REGISTERS TO LIST
             // TODO: pop two bytes from the stack into BC pair
-            // C = memory[SP]; // low byte
-            // B = memory[SP+1]; // high byte
+            C = memory[SP]; // low byte
+            B = memory[SP+1]; // high byte
             SP += 2;
             return;
 

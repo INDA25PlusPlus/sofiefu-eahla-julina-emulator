@@ -8,8 +8,17 @@ struct Emulator
 {   
     // register
     // in order B, C, D, E, H, L, (M), A
-    map<char, int> registerIndex = {{'A', 7}, {'B', 0}, {'C', 1}, {'D', 2}, {'E', 3}, {'H', 4}, {'L', 5}}; 
-    vector<uint8_t> registers{8, 0};
+    enum RegisterIndex {
+      REG_B = 0,
+      REG_C,
+      REG_D,
+      REG_E,
+      REG_H,
+      REG_L,
+      REG_M, // minne vid H + L
+      REG_A,
+    };
+    uint8_t registers[8];
 
     // stack pointer och program counter
     uint16_t SP;
@@ -56,6 +65,11 @@ struct Emulator
 
 };
 
-
-
-
+#define B registers[REG_B]
+#define C registers[REG_C]
+#define D registers[REG_D]
+#define E registers[REG_E]
+#define H registers[REG_H]
+#define L registers[REG_L]
+// #define M registers[REG_M]
+#define A registers[REG_A]
