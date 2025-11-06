@@ -7,7 +7,8 @@ using namespace std;
 struct Emulator
 {   
     // register
-    vector<uint8_t> registers{8};
+    // in order B, C, D, E, H, L, (M), A
+    vector<uint8_t> registers{8, 0};
 
     // stack pointer och program counter
     uint16_t SP;
