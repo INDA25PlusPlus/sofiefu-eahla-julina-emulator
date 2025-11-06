@@ -8,7 +8,7 @@ struct Emulator
 {   
     // register
     // in order B, C, D, E, H, L, (M), A
-    enum RegisterIndex {
+    enum RegisterIndex { // Ska vi initialisera dessa med 0, 1, .., 7 ??
       REG_B = 0,
       REG_C,
       REG_D,
@@ -53,6 +53,8 @@ struct Emulator
     void loadProgram(const char* filename);
     void emulateCycle();
     uint16_t pop16();
+    uint8_t encode_flag_byte();
+    void decode_flag_byte(uint8_t flag_byte);
 
     // instructions
     // Finns tex bara en unconditional JMP, men flera conditional mha flaggor, så najs att ha

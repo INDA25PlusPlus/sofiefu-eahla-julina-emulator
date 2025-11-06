@@ -7,8 +7,6 @@ using namespace std;
 
 void Emulator::initialize() { 
 
-        std::fill(registers.begin(), registers.end(), 0);
-
         PC = 0;
         SP = 0xFFFF; // stack grows downward
         flags.Z  = 0;
@@ -91,16 +89,10 @@ void Emulator::emulateCycle() {
             }
             return;
         
-        case 0xC5: // PUSH B -- unconditional
-            push(registers[0], registers[1]);
+        case 0xC5: // PUSH -- unconditional
+            // TODO
             return;
-        case 0xD5: // PUSH D
-            push(registers[2], registers[3]);
-            break;
-        case 0xE5: // PUSH H
-            push(registers[4], registers[5]);
-            break;
-
+        
         case 0xC6: // ADI
             // TODO
             return;
@@ -154,8 +146,10 @@ void Emulator::emulateCycle() {
             return;
         
         case 0xD1: // POP D
-            // TODO
             // pop two bytes from the stack into DE pair
+            E = memory[PC]; // low byte
+            D = memory[PC + 1]; // high byte
+            PC += 2;
             return;
         
         case 0xD2: // JNC -- jump on no carry
@@ -235,7 +229,9 @@ void Emulator::emulateCycle() {
             return;
 
         case 0xE1: // POP H
-            // TODO
+            L = memory[PC];
+            H = memory[PC+1];
+            PC += 2;
             return;
 
         case 0xE2: // JPO -- jump if parity odd
@@ -317,6 +313,13 @@ void Emulator::emulateCycle() {
 
         case 0xF1: // POP PSW
             // TODO
+
+            int8_t flag_byte = memory[SP];
+            A = memory[SP+1];
+
+            decode_flag_byte(flag_byte);
+            
+            SP += 2;
             return;
 
         case 0xF2: // JP -- jump if positive
@@ -441,4 +444,33 @@ void Emulator::JMP() {
     uint16_t addr = memory[PC] | (memory[PC+1] << 8);
     PC = addr;
 }
+
+uint8_t Emulator::encode_flag_byte() {
+
+    // flag byte format: S Z 1 AC 0 P 1 CY
+
+    uint8_t flag_byte = 0;
+
+    flag_byte |= (flags.S << 7);
+    flag_byte |= (flags.Z << 6);
+    flag_byte |= (1 << 5);
+    flag_byte |= (flags.AC << 4);
+    flag_byte |= (flags.P << 2);
+    flag_byte |= (1 << 1);
+    flag_byte |= (flags.CY << 0);
+
+    return flag_byte;
+
+}
+
+void Emulator::decode_flag_byte(uint8_t flag_byte) {
+
+    flags.S = (flag_byte >> 7) & 1;
+    flags.Z = (flag_byte >> 6) & 1;
+    flags.AC = (flag_byte >> 4) & 1;
+    flags.P = (flag_byte >> 2) & 1;
+    flags.CY = (flag_byte >> 0) & 1;
+
+}
+
 
