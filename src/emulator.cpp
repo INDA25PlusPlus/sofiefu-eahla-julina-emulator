@@ -7,7 +7,7 @@ using namespace std;
 
 void Emulator::initialize() { 
 
-        std::fill(registers.begin(), registers.end(), 0);
+        std::fill(registers, registers + 8, 0);
 
         PC = 0;
         SP = 0xFFFF; // stack grows downward
@@ -53,19 +53,34 @@ void Emulator::emulateCycle() {
             return;
         
 
-        // 8x - 88 // ARITHMETIC INSTRUCTIONS
-        case 0x80: case 0x81: case 0x82: case 0x83: case 0x84: case 0x85:
+        // 0x80 - 0xC0 // ARITHMETIC INSTRUCTIONS
+
+        case 0x80: case 0x81: case 0x82: case 0x83: case 0x84: case 0x85: case 0x87:
             // add from register last 3 to A
             uint8_t reg = opcode & 0b111;
-            A = A + reges; // nej
+            A = A + registers[reg];
+            return;
         
         case 0x86:
+            // lower 3 110 , (A)...- (A) + ((H) (L))
+            //
+            return;
         
-        case 0x87:
+        // case 0x87: // Fixed right above here!
 
         // 8x - 90 // ADD r (lower 3) to A
-        // lower 3 110 , (A)...- (A) + ((H) (L))
+        case 0x88: case 0x89: case 0x8a: case 0x8b: case 0x8c: case 0x8d: case 0x8f:
+            // (Add Register with carry)
+            // (A) ~ (A) + (r) + (CY)
+            uint8_t reg = opcode & 0b111;
+            A = A + registers[reg] + flags.CY;
+            return;
+        
+        case 0x8e:
+            //
+            return;
 
+        // case 0x8f: // Fixed right above here!
 
         // 
 
@@ -111,12 +126,6 @@ void Emulator::emulateCycle() {
         case 0xC5: // PUSH B -- unconditional
             push(registers[0], registers[1]);
             return;
-        case 0xD5: // PUSH D
-            push(registers[2], registers[3]);
-            break;
-        case 0xE5: // PUSH H
-            push(registers[4], registers[5]);
-            break;
 
         case 0xC6: // ADI
             // TODO
@@ -194,10 +203,10 @@ void Emulator::emulateCycle() {
                 PC += 2;
             }
             return;
-
+        
         case 0xD5: // PUSH D
-            // TODO
-            return;
+            push(registers[2], registers[3]);
+            break;
 
         case 0xD6: // SUI d8
             // TODO
@@ -275,8 +284,8 @@ void Emulator::emulateCycle() {
             }
         
         case 0xE5: // PUSH H
-            // TODO
-            return;
+            push(registers[4], registers[5]);
+            break;
 
         case 0xE6: // ANI d8
             // TODO
