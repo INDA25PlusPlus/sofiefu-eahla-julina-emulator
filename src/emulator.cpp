@@ -7,7 +7,7 @@ using namespace std;
 
 void Emulator::initialize() { 
 
-        std::fill(registers.begin(), registers.end(), 0);
+        std::fill(registers, registers + 8, 0);
 
         PC = 0;
         SP = 0xFFFF; // stack grows downward
@@ -51,6 +51,38 @@ void Emulator::emulateCycle() {
             // stops the processor from fetching and executing further instructions
             halted = true;
             return;
+        
+
+        // 0x80 - 0xC0 // ARITHMETIC INSTRUCTIONS
+
+        case 0x80: case 0x81: case 0x82: case 0x83: case 0x84: case 0x85: case 0x87:
+            // add from register last 3 to A
+            uint8_t reg = opcode & 0b111;
+            A = A + registers[reg];
+            return;
+        
+        case 0x86:
+            // lower 3 110 , (A)...- (A) + ((H) (L))
+            //
+            return;
+        
+        // case 0x87: // Fixed right above here!
+
+        // 8x - 90 // ADD r (lower 3) to A
+        case 0x88: case 0x89: case 0x8a: case 0x8b: case 0x8c: case 0x8d: case 0x8f:
+            // (Add Register with carry)
+            // (A) ~ (A) + (r) + (CY)
+            uint8_t reg = opcode & 0b111;
+            A = A + registers[reg] + flags.CY;
+            return;
+        
+        case 0x8e:
+            //
+            return;
+
+        // case 0x8f: // Fixed right above here!
+
+        // 
 
         
         // BRANCH GROUP
@@ -64,8 +96,8 @@ void Emulator::emulateCycle() {
             
         case 0xC1: // POP B //!!! CHANGE IF WE CHANGE REGISTERS TO LIST
             // TODO: pop two bytes from the stack into BC pair
-            // C = memory[SP]; // low byte
-            // B = memory[SP+1]; // high byte
+            C = memory[SP]; // low byte
+            B = memory[SP+1]; // high byte
             SP += 2;
             return;
 
@@ -167,7 +199,7 @@ void Emulator::emulateCycle() {
                 PC += 2;
             }
             return;
-
+        
         case 0xD5: // PUSH D
             PUSH(registers[2], registers[3]);
             return;
