@@ -23,6 +23,13 @@ void Emulator::handleMisc(uint8_t opcode)
 
                 PC += 2;
             }
+            else if (opcode == 0x11)
+            {
+                D = memory[PC + 1];
+                E = memory[PC];
+
+                PC += 2;
+            }
             else if (opcode == 0x31)
             {
                 SP = (memory[PC + 1] << 8) | memory[PC];
@@ -65,6 +72,14 @@ void Emulator::handleMisc(uint8_t opcode)
         // INX B, D, H, SP
 
         case 0x03: case 0x13: case 0x23: case 0x33: {
+            if (opcode == 0x03)
+            {
+                uint16_t tmp = (B << 8) | C;
+                tmp++;
+
+                B = (tmp >> 8) & 0xFF;
+                C = tmp & 0xFF;
+            }
             // TODO
             return;
         }
@@ -97,6 +112,13 @@ void Emulator::handleMisc(uint8_t opcode)
         // RLC, RAL, DAA, STC
         
         case 0x07: case 0x17: case 0x27: case 0x37: {
+            if (opcode == 0x17)
+            {
+                bool new_CY = (A >> 7);
+                A = (A << 1);
+                A = (A | flags.CY);
+                flags.CY = new_CY;
+            }
             // TODO
             return;
         }
@@ -118,6 +140,10 @@ void Emulator::handleMisc(uint8_t opcode)
         // LDAX B, LDAX D, LHLD, LDA
 
         case 0x0a: case 0x1a: case 0x2a: case 0x3a: {
+            if (opcode == 0x0A) {
+                uint16_t addr = (B << 8) | C;
+                A = memory[addr];
+            }
             // TODO
             return;
         }
@@ -132,6 +158,13 @@ void Emulator::handleMisc(uint8_t opcode)
         // INR
 
         case 0x0C: case 0x1C: case 0x2C: case 0x3C: {
+            if (opcode == 0x0C) {
+                uint8_t old_C = C;
+                C++;
+
+                flags.AC = (((old_C & 0x0F) + 1) > 0x0F);
+                set_flags(C);
+            }
             // TODO
             return;
         }
@@ -153,6 +186,15 @@ void Emulator::handleMisc(uint8_t opcode)
         // RRC
 
         case 0x0F: case 0x1F: case 0x2F: case 0x3F: {
+            if (opcode == 0x1F)
+            {
+                bool old_CY = flags.CY;
+
+                flags.CY = (A & 1);
+
+                A >>= 1;
+                A = A | (old_CY << 7);
+            }
             // TODO
             return;
         }
@@ -162,27 +204,3 @@ void Emulator::handleMisc(uint8_t opcode)
         }
     }
 }
-
-// 0x01	LXI B, word
-// 0x31	LXI SP, word
-// 0x28	NOP (or similar)
-
-// 0x02	STAX B
-// 0x12	STAX D
-
-// 03
-
-// 0x04	INR B
-
-
-// 0x18	
-
-// 0x0A	LDAX B
-// 0x0C	INR C
-// 0x3F	STC
-
-
-// 11 → LXI D,D16
-// 17 → RAL
-// 1F → RAR
-// 18 →
