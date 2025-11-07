@@ -225,6 +225,8 @@ void Emulator::handleArithmetic(uint8_t opcode)
 
         default: {
             cout << "Error Misdirected Instruction in 0x40 to 0x7F, instruction: " << opcode << "\n";
+            halted = true;
+            return;
         }
     }
 }

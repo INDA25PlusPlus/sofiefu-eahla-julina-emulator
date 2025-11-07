@@ -201,6 +201,8 @@ void Emulator::handleMisc(uint8_t opcode)
 
         default: {
             cout << "Error Misdirected Instruction in 0x00 to 0x3F, instruction: " << opcode << "\n";
+            halted = true;
+            return;
         }
     }
 }

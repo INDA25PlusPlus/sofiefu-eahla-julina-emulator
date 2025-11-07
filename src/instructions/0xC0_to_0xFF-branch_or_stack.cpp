@@ -177,7 +177,8 @@ void Emulator::handleBranchOrStack(uint8_t opcode)
             return;
         }
         case 0xDD:
-            cerr << "0xDD extended opcode not implemented yet\n";
+            //cerr << "0xDD extended opcode not implemented yet\n";
+            CALL();
             return;
 
         case 0xDE: {// SBI d8
@@ -260,7 +261,8 @@ void Emulator::handleBranchOrStack(uint8_t opcode)
             return;
 
         case 0xED:
-            cerr << "0xED extended opcode not implemented yet\n";
+            //cerr << "0xED extended opcode not implemented yet\n";
+            CALL();
             return;
 
         case 0xEE: // XRI
@@ -348,7 +350,8 @@ void Emulator::handleBranchOrStack(uint8_t opcode)
             return;
 
         case 0xFD:
-            cerr << "0xFD extended opcode not implemented yet\n";
+            //cerr << "0xFD extended opcode not implemented yet\n";
+            CALL();
             return;
 
         case 0xFE: // CPI d8
