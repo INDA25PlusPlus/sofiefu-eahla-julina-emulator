@@ -268,7 +268,7 @@ void Emulator::handleBranchOrStack(uint8_t opcode)
             return;
 
         case 0xF1: // POP PSW
-            int8_t flag_byte = memory[SP];
+            flag_byte = memory[SP];
             A = memory[SP+1];
 
             decode_flag_byte(flag_byte);
@@ -298,7 +298,7 @@ void Emulator::handleBranchOrStack(uint8_t opcode)
 
         case 0xF5: // PUSH PSW
 
-            uint8_t flag_byte = encode_flag_byte();
+            flag_byte = encode_flag_byte();
             
             PUSH(A, flag_byte);
             return;

@@ -45,6 +45,8 @@ struct Emulator
 
     Flags flags; 
 
+    uint8_t flag_byte = 0;
+
 
     bool halted; // lägger till denna så att vi vet ifall emulateCycle() ska fortsätta köras
 
