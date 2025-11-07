@@ -297,7 +297,10 @@ void Emulator::handleBranchOrStack(uint8_t opcode)
             return;
 
         case 0xF5: // PUSH PSW
-            // TODO
+
+            uint8_t flag_byte = encode_flag_byte();
+            
+            PUSH(A, flag_byte);
             return;
 
         case 0xF6: // ORI d8
