@@ -34,7 +34,6 @@ uint8_t Emulator::encode_flag_byte() {
 
     flag_byte |= (flags.S << 7);
     flag_byte |= (flags.Z << 6);
-    flag_byte |= (1 << 5);
     flag_byte |= (flags.AC << 4);
     flag_byte |= (flags.P << 2);
     flag_byte |= (1 << 1);
@@ -93,4 +92,25 @@ void Emulator::RST(uint8_t n){
     memory[SP] = return_address & 0xF; // stores return_address in stack (in memory)
     memory[SP + 1] = (return_address >> 8); 
     PC = 8 * n;
+}
+
+
+uint8_t Emulator::checkParity(uint8_t byte) {
+
+    // parity flag is 1 if accumulator has even number of 1's
+
+    uint8_t count = 0;
+
+    for (int i = 0; i<8; i++) {
+        if (byte & (1<<i)) {
+            count++;
+        }
+    }
+
+    if (count % 2 == 0) {
+        return 1;
+    } else {
+        return 0;
+    }
+
 }

@@ -128,8 +128,20 @@ void Emulator::handleBranchOrStack(uint8_t opcode)
             PUSH(registers[2], registers[3]);
             return;
 
-        case 0xD6: // SUI d8
-            // TODO
+        case 0xD6: // SUI d8 -- content of second byte of instruction is
+            // subtracted from the content of the accumulator
+            uint8_t data = memory[PC];
+            PC++;
+            uint16_t result = A - data; // needs to be stored in result to update CY flag
+
+            // uppdatera flaggor
+            flags.Z = ((result & 0xFF) == 0);
+            flags.S = ((result & 0x80) != 0);
+            flags.P = checkParity(result & 0xFF);
+            flags.CY = (result > 0xFF);
+            flags.AC = ((A & 0x0F) < (data & 0x0F));
+
+            A = (uint8_t)(result & 0xFF);
             return;
 
         case 0xD7: RST(2); return;

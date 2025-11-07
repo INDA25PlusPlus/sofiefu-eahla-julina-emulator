@@ -63,6 +63,7 @@ struct Emulator
     uint16_t pop16();
     uint8_t encode_flag_byte();
     void decode_flag_byte(uint8_t flag_byte);
+    uint8_t checkParity(uint8_t byte);
 
     // instructions
     // Finns tex bara en unconditional JMP, men flera conditional mha flaggor, så najs att ha
