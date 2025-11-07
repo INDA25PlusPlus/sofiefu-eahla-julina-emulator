@@ -45,6 +45,8 @@ struct Emulator
 
     Flags flags; 
 
+    uint8_t flag_byte = 0;
+
 
     bool halted; // lägger till denna så att vi vet ifall emulateCycle() ska fortsätta köras
 
@@ -63,6 +65,7 @@ struct Emulator
     uint16_t pop16();
     uint8_t encode_flag_byte();
     void decode_flag_byte(uint8_t flag_byte);
+    uint8_t checkParity(uint8_t byte);
 
     void set_flags(uint8_t result);
     void set_flags_before_add(uint8_t a, uint8_t b, uint8_t result);
@@ -78,6 +81,9 @@ struct Emulator
     int get_binary_value(uint8_t byte, int r, int l);
     void PUSH(uint8_t high, uint8_t low);
     void RST(uint8_t n);
+
+    void printCPUstate();
+    void printRegister(const std::string& name, uint8_t value);
 };
 
 #define B registers[REG_B]
