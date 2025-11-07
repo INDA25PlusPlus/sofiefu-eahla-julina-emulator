@@ -16,6 +16,18 @@ void Emulator::handleMisc(uint8_t opcode)
         // LXI
 
         case 0x01: case 0x11: case 0x21: case 0x31: {
+            if (opcode == 0x01)
+            {
+                B = memory[PC + 1];
+                C = memory[PC];
+
+                PC += 2;
+            }
+            else if (opcode == 0x31)
+            {
+                SP = (memory[PC + 1] << 8) | memory[PC];
+                PC += 2;
+            }
             // TODO
             return;
         }
@@ -23,12 +35,20 @@ void Emulator::handleMisc(uint8_t opcode)
         // STAX B, STAX D, SHLD, STA
 
         case 0x02: {
-            // TODO
+            // B
+            uint16_t addr = (B << 8) | C;
+
+            memory[addr] = A;
+
             return;
         }
 
         case 0x12: {
-            // TODO
+            // D
+            uint16_t addr = (D << 8) | E;
+
+            memory[addr] = A;
+            
             return;
         }
 
@@ -52,6 +72,10 @@ void Emulator::handleMisc(uint8_t opcode)
         // INR
 
         case 0x04: case 0x14: case 0x24: case 0x34: {
+            if (opcode == 0x04)
+            {
+                B = B + 1;
+            }
             // TODO
             return;
         }
@@ -138,3 +162,27 @@ void Emulator::handleMisc(uint8_t opcode)
         }
     }
 }
+
+// 0x01	LXI B, word
+// 0x31	LXI SP, word
+// 0x28	NOP (or similar)
+
+// 0x02	STAX B
+// 0x12	STAX D
+
+// 03
+
+// 0x04	INR B
+
+
+// 0x18	
+
+// 0x0A	LDAX B
+// 0x0C	INR C
+// 0x3F	STC
+
+
+// 11 → LXI D,D16
+// 17 → RAL
+// 1F → RAR
+// 18 →

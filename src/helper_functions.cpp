@@ -12,12 +12,11 @@ void Emulator::CALL() {
     uint8_t addr = (memory[PC + 1] << 8) | memory[PC];
             
     // push return address (PC + 2) onto stack
-    uint8_t ret = PC + 2;
+    
     SP -= 2;
-    memory[SP] = ret & 0xFF; // low byte
-    memory[SP - 2] = (ret >> 8) & 0xFF; // high byte
+    memory[SP] = PC & 0xFF; // low byte
+    memory[SP + 1] = (PC >> 8) & 0xFF; // high byte
 
-    SP -= 2;
     PC = addr;
 }
 
