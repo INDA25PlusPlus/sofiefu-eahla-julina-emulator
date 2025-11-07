@@ -48,3 +48,59 @@ void Emulator::emulateCycle() {
         cout << "Error Invalid opcode. opcode : " << opcode << "\n";
     }
 }
+
+void Emulator::printCPUstate() {
+
+    // printa register
+
+    cout << "REGISTERS\n";
+    printRegister("A", A);
+    printRegister("B", B);
+    printRegister("C", C);
+    printRegister("D", D);
+    printRegister("E", E);
+    printRegister("H", H);
+    printRegister("L", L);
+
+    cout << "B: " << B << "\n";
+    
+
+    cout << "\n\n";
+
+    // printa flaggor
+    
+    cout << "FLAGS\n";
+    cout << "Z:" << flags.Z << " ";
+    cout << "S:" << flags.S << " ";
+    cout << "P:" << flags.P << " ";
+    cout << "AC:" << flags.AC << " ";
+    cout << "CY:" << flags.CY;
+
+    cout << "\n\n";
+
+    // printa minne
+
+    cout << "MEMORY\n";
+
+    for (int i = 0; i < 16; i ++) {
+
+        for (int j =0; j<16;j++) {
+
+            cout << memory[i*16 + j] << " ";
+        }
+        cout << "\n";
+    }
+
+
+}
+
+void printRegister(const std::string& name, uint8_t value) {
+    std::cout << name << ": 0x"
+              << std::hex 
+              << std::uppercase 
+              << std::setw(2) 
+              << std::setfill('0') 
+              << static_cast<int>(value) 
+              << std::dec 
+              << "\n";
+}
