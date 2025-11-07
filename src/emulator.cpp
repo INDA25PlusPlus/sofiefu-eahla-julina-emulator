@@ -72,11 +72,11 @@ void Emulator::printCPUstate() {
     // printa flaggor
     
     cout << "FLAGS\n";
-    cout << "Z:" << flags.Z << " ";
-    cout << "S:" << flags.S << " ";
-    cout << "P:" << flags.P << " ";
-    cout << "AC:" << flags.AC << " ";
-    cout << "CY:" << flags.CY;
+    cout << "Z:" << (int)flags.Z << " ";
+    cout << "S:" << (int)flags.S << " ";
+    cout << "P:" << (int)flags.P << " ";
+    cout << "AC:" << (int)flags.AC << " ";
+    cout << "CY:" << (int)flags.CY;
 
     cout << "\n\n";
 
