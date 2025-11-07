@@ -15,7 +15,8 @@ int main(){
         if (!cpu.halted) {
             cpu.emulateCycle();
         } else {
-            break
+            cpu.printCPUstate();
+            break;
         }
     }
 
