@@ -128,7 +128,7 @@ void Emulator::handleBranchOrStack(uint8_t opcode)
             PUSH(registers[2], registers[3]);
             return;
 
-        case 0xD6: // SUI d8 -- content of second byte of instruction is
+        case 0xD6: {// SUI d8 -- content of second byte of instruction is
             // subtracted from the content of the accumulator
             uint8_t data = memory[PC];
             PC++;
@@ -143,86 +143,89 @@ void Emulator::handleBranchOrStack(uint8_t opcode)
 
             A = (uint8_t)(result & 0xFF);
             return;
+        }
 
         case 0xD7: RST(2); return;
 
-        case 0xD8: // RC -- return if carry
+        case 0xD8: {// RC -- return if carry
             if (flags.CY) {
                 PC = pop16();
             }
             return;
-
+        }
         // case 0xD9
 
-        case 0xDA: //JC -- jump if carrry
+        case 0xDA: {//JC -- jump if carrry
             if (flags.CY) {
                 JMP();
             } else {
                 PC += 2;
             }
             return;
-
-        case 0xDB: // IN d8
+        }
+        case 0xDB: {// IN d8
             // TODO
             return;
-
-        case 0xDC: // CC a16 -- call if carry
+        }
+        case 0xDC: {// CC a16 -- call if carry
             if (flags.CY) {
                 CALL();
             } else {
                 PC += 2;
             }
             return;
-
+        }
         // case 0xDD
 
-        case 0xDE: // SBI d8
+        case 0xDE: {// SBI d8
             // TODO
             break;
-
-        case 0xDF: RST(3); return;
-
-        case 0xE0: // RPO -- return if parity odd
+        }
+        case 0xDF: {
+            RST(3); return;
+        }
+        case 0xE0: {// RPO -- return if parity odd
             if (!flags.P) {
                 PC = pop16();
             }
             return;
-
-        case 0xE1: // POP H
+        }
+        case 0xE1: {// POP H
             L = memory[PC];
             H = memory[PC+1];
             PC += 2;
             return;
-
-        case 0xE2: // JPO -- jump if parity odd
+        }
+        case 0xE2:{ // JPO -- jump if parity odd
             if (!flags.P) {
                 JMP();
             } else {
                 PC += 2;
             }
             return;
-
-        case 0xE3: // XTHL
+        }
+        case 0xE3: {// XTHL
             // TODO
             return;
-
-        case 0xE4: // CPO - call if parity odd
+        }
+        case 0xE4: {// CPO - call if parity odd
             if (!flags.P) {
                 CALL();
             } else {
                 PC += 2;
             }
-        
-        case 0xE5: // PUSH H
+        }
+        case 0xE5: {// PUSH H
             PUSH(registers[4], registers[5]);
             return;
-
-        case 0xE6: // ANI d8
+        }
+        case 0xE6: {// ANI d8
             // TODO
             return;
-
-        case 0xE7: RST(4); return;
-
+        }
+        case 0xE7: {
+            RST(4); return;
+        }
         case 0xE8: // RPe -- return if parity even
             if (flags.P) {
                 PC = pop16();
