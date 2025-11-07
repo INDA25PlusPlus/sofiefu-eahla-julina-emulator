@@ -61,8 +61,6 @@ void Emulator::printCPUstate() {
     printRegister("E", E);
     printRegister("H", H);
     printRegister("L", L);
-
-    cout << "B: " << B << "\n";
     
 
     cout << "\n\n";
