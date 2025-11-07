@@ -347,7 +347,9 @@ void Emulator::handleBranchOrStack(uint8_t opcode)
             }
             return;
 
-        // case 0xFD
+        case 0xFD:
+            cerr << "0xFD extended opcode not implemented yet\n";
+            return;
 
         case 0xFE: // CPI d8
             // TODO
