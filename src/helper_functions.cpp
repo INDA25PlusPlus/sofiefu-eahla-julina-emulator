@@ -34,7 +34,6 @@ uint8_t Emulator::encode_flag_byte() {
 
     flag_byte |= (flags.S << 7);
     flag_byte |= (flags.Z << 6);
-    flag_byte |= (1 << 5);
     flag_byte |= (flags.AC << 4);
     flag_byte |= (flags.P << 2);
     flag_byte |= (1 << 1);
