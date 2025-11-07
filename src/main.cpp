@@ -11,10 +11,12 @@ int main(){
 
 
     while(true){
+        cpu.printCPUstate();
         if (!cpu.halted) {
             cpu.emulateCycle();
         } else {
-            // break, wait for interrupt, eller annat??
+            cpu.printCPUstate();
+            break;
         }
     }
 

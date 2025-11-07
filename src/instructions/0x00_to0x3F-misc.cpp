@@ -1,4 +1,4 @@
-#include "emulator.h"
+#include "../emulator.h"
 using namespace std;
 
 void Emulator::handleMisc(uint8_t opcode) 

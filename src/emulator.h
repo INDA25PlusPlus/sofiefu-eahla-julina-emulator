@@ -75,6 +75,9 @@ struct Emulator
     int get_binary_value(uint8_t byte, int r, int l);
     void PUSH(uint8_t high, uint8_t low);
     void RST(uint8_t n);
+
+    void printCPUstate();
+    void printRegister(const std::string& name, uint8_t value);
 };
 
 #define B registers[REG_B]
