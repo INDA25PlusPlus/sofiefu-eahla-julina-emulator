@@ -2,6 +2,7 @@
 #include <cstring>
 #include <fstream>
 #include <iostream>
+#include <iomanip>
 using namespace std;
 
 void Emulator::initialize() { 
@@ -39,10 +40,10 @@ void Emulator::emulateCycle() {
     PC++;
 
     // handle unique instructions
-    if (0x00 <= opcode <= 0x3F) handleMisc(opcode);
-    else if (0x40 <= opcode <= 0x7F) handleLoadStoreMove(opcode);
-    else if (0x80 <= opcode <= 0xBF) handleAritmethic(opcode);
-    else if (0xC0 <= opcode <= 0xFF) handleBranchOrStack(opcode);
+    if (0x00 <= opcode && opcode <= 0x3F) handleMisc(opcode);
+    else if (0x40 <= opcode && opcode <= 0x7F) handleLoadStoreMove(opcode);
+    else if (0x80 <= opcode && opcode <= 0xBF) handleArithmetic(opcode);
+    else if (0xC0 <= opcode && opcode <= 0xFF) handleBranchOrStack(opcode);
     else 
     {
         cout << "Error Invalid opcode. opcode : " << opcode << "\n";
@@ -51,16 +52,19 @@ void Emulator::emulateCycle() {
 
 void Emulator::printCPUstate() {
 
+    cout << "PC: " << PC << "\n" << "SP: " << SP << "\n\n";
+
     // printa register
 
     cout << "REGISTERS\n";
-    printRegister("A", A);
-    printRegister("B", B);
-    printRegister("C", C);
-    printRegister("D", D);
-    printRegister("E", E);
-    printRegister("H", H);
-    printRegister("L", L);
+    cout << "A     B     C     D     E     H     L    \n";
+    printRegister(A);
+    printRegister(B);
+    printRegister(C);
+    printRegister(D);
+    printRegister(E);
+    printRegister(H);
+    printRegister(L);
     
 
     cout << "\n\n";
@@ -79,7 +83,6 @@ void Emulator::printCPUstate() {
     // printa minne
 
    // cout << "MEMORY\n";
-    cout << "PC: " << PC << " " << "SP: " << SP << "\n";
     // for (int i = 0; i < 16; i ++) {
 
     //     for (int j =0; j<16;j++) {
@@ -88,19 +91,15 @@ void Emulator::printCPUstate() {
     //     }
     //     cout << "\n";
     // }
-
-    
-
-
 }
 
-void printRegister(const std::string& name, uint8_t value) {
-    std::cout << name << ": 0x"
+void Emulator::printRegister(uint8_t value) {
+    std::cout << "0x"
               << std::hex 
               << std::uppercase 
               << std::setw(2) 
               << std::setfill('0') 
               << static_cast<int>(value) 
-              << std::dec 
-              << "\n";
+              << std::dec
+              << "  ";
 }
