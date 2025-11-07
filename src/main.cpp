@@ -15,6 +15,7 @@ int main(){
             cpu.emulateCycle();
         } else {
             // break, wait for interrupt, eller annat??
+            break;
         }
     }
 

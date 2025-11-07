@@ -39,10 +39,10 @@ void Emulator::emulateCycle() {
     PC++;
 
     // handle unique instructions
-    if (0x00 <= opcode <= 0x3F) handleMisc(opcode);
-    else if (0x40 <= opcode <= 0x7F) handleLoadStoreMove(opcode);
-    else if (0x80 <= opcode <= 0xBF) handleAritmethic(opcode);
-    else if (0xC0 <= opcode <= 0xFF) handleBranchOrStack(opcode);
+    if (0x00 <= opcode && opcode <= 0x3F) handleMisc(opcode);
+    else if (0x40 <= opcode && opcode <= 0x7F) handleLoadStoreMove(opcode);
+    else if (0x80 <= opcode && opcode <= 0xBF) handleArithmetic(opcode);
+    else if (0xC0 <= opcode && opcode <= 0xFF) handleBranchOrStack(opcode);
     else 
     {
         cout << "Error Invalid opcode. opcode : " << opcode << "\n";
