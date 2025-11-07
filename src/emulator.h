@@ -3,6 +3,7 @@
 #include <vector>
 #include <map>
 #include <cstdint>
+#include <string>
 using namespace std;
 
 struct Emulator

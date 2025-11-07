@@ -2,6 +2,7 @@
 #include <cstring>
 #include <fstream>
 #include <iostream>
+#include <iomanip>
 using namespace std;
 
 void Emulator::initialize() { 
@@ -94,7 +95,7 @@ void Emulator::printCPUstate() {
 
 }
 
-void printRegister(const std::string& name, uint8_t value) {
+void Emulator::printRegister(const std::string& name, uint8_t value) {
     std::cout << name << ": 0x"
               << std::hex 
               << std::uppercase 
