@@ -78,16 +78,16 @@ void Emulator::printCPUstate() {
 
     // printa minne
 
-    cout << "MEMORY\n";
+   // cout << "MEMORY\n";
     cout << "PC: " << PC << " " << "SP: " << SP << "\n";
-    for (int i = 0; i < 16; i ++) {
+    // for (int i = 0; i < 16; i ++) {
 
-        for (int j =0; j<16;j++) {
+    //     for (int j =0; j<16;j++) {
 
-            cout << memory[i*16 + j] << " ";
-        }
-        cout << "\n";
-    }
+    //         cout << memory[i*16 + j] << " ";
+    //     }
+    //     cout << "\n";
+    // }
 
     
 
