@@ -9,7 +9,7 @@ uint16_t Emulator::pop16() {
 }
 
 void Emulator::CALL() {
-    uint8_t addr = (memory[PC + 1] << 8) | memory[PC];
+    uint16_t addr = (memory[PC + 1] << 8) | memory[PC];
             
     // push return address (PC + 2) onto stack
     PC += 2;
