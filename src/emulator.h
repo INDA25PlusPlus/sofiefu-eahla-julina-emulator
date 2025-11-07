@@ -84,7 +84,7 @@ struct Emulator
     void RST(uint8_t n);
 
     void printCPUstate();
-    void printRegister(const std::string& name, uint8_t value);
+    void printRegister(uint8_t value);
 };
 
 #define B registers[REG_B]
