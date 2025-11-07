@@ -47,6 +47,7 @@ void Emulator::emulateCycle() {
     else 
     {
         cout << "Error Invalid opcode. opcode : " << opcode << "\n";
+        halted = true;
     }
 }
 

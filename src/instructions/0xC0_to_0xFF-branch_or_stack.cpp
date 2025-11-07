@@ -1,4 +1,5 @@
 #include "../emulator.h"
+#include <iostream>
 using namespace std;
 
 void Emulator::handleBranchOrStack(uint8_t opcode) 
@@ -175,7 +176,9 @@ void Emulator::handleBranchOrStack(uint8_t opcode)
             }
             return;
         }
-        // case 0xDD
+        case 0xDD:
+            cerr << "0xDD extended opcode not implemented yet\n";
+            return;
 
         case 0xDE: {// SBI d8
             // TODO
@@ -256,7 +259,9 @@ void Emulator::handleBranchOrStack(uint8_t opcode)
             }
             return;
 
-        // case 0xED
+        case 0xED:
+            cerr << "0xED extended opcode not implemented yet\n";
+            return;
 
         case 0xEE: // XRI
             // TODO
@@ -351,5 +356,13 @@ void Emulator::handleBranchOrStack(uint8_t opcode)
         case 0xFF: RST(7); return;
 
         // TODO: Write all cases and implement them
+
+        default:
+            std::cerr << "Error: Unimplemented or invalid opcode in 0xC0-0xFF range: 0x"
+                    << std::hex << static_cast<int>(opcode) << std::dec << "\n";
+
+            halted = true;
+            break;
     }
+
 }
