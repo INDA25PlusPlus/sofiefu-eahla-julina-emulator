@@ -6,7 +6,7 @@ using namespace std;
 int main(){
     Emulator cpu;
     cpu.initialize();
-    cpu.loadProgram("./8080-machine-code-examples/no-output-fib.bin");
+    cpu.loadProgram("./8080-machine-code-examples/program.bin");
 
     while(true){
         cpu.printCPUstate();
